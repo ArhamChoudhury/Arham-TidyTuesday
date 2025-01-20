@@ -1,0 +1,83 @@
+---
+title: "TidyTuesday-2025-Jan-wk2"
+author: "Arham Chouhury"
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(tidytuesdayR)
+library(readxl)
+library(writexl)
+library(ellmer)
+library(glue)
+```
+
+```{r}
+tuesdata <- tidytuesdayR::tt_load('2025-01-14')
+
+conf2023 <- tuesdata$conf2023
+conf2024 <- tuesdata$conf2024
+
+df <- conf2024 |> 
+  filter(track == "Lightning Talks") |> 
+  filter(is.na(description) == FALSE) |> 
+  select(talk_title, description) |> 
+  rename_with(~ paste0("human_", .))
+df
+```
+
+```{r}
+# Function to count the number of words in a string
+count_words <- function(text) {
+  ifelse(is.na(text), 0, str_count(text, "\\S+"))
+}
+
+df <- df |>
+  mutate(human_title_word_count = count_words(human_talk_title)) |> 
+  mutate(human_description_word_count = count_words(human_description))
+df
+```
+
+```{r}
+#functions to use in {ellmer} #1
+basic_summary <- function(text) {
+  chat <- chat_openai(
+    model = "gpt-4o",
+    system_prompt = "You are a friendly assistant.",
+  )
+  chat$chat(glue("Summarize this text in under 15 words: {text}"))
+}
+
+#functions to use in {ellmer} #2
+generate_talk_title <- function(text) {
+  chat <- chat_openai(
+    model = "gpt-4o",
+    system_prompt = "You are a great public speaker",
+  )
+  chat$chat(glue("Using less than 15 words, 
+                 create a compelling headline 
+                 from the abstract of this talk: {text}"))
+}
+```
+
+```{r}
+df_ai_summaries <- df |> 
+  group_by(human_talk_title) |> 
+  mutate(ai_summary = basic_summary(human_description)) |> 
+  mutate(ai_summary_word_count = count_words(ai_summary))
+df_ai_summaries
+```
+
+```{r}
+df_ai_titles <- df |> 
+  group_by(human_talk_title) |> 
+  mutate(ai_summary = generate_talk_title(human_description)) |> 
+  mutate(ai_summary_word_count = count_words(ai_summary))
+df_ai_titles
+```
+
+```{r}
+write_xlsx(df_ai_summaries, "00_Outputs/df_ai_summaries.xlsx")
+write_xlsx(df_ai_summaries, "00_Outputs/df_ai_titles.xlsx")
+```
