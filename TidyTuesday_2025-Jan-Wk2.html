@@ -192,59 +192,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">chat</span>(<span class="fu">glue</span>(<span class="st">"Summarize this text in under 15 words: {text}"</span>))</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>basic_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>function (text) 
-{
-    chat &lt;- chat_openai(model = "gpt-4o", system_prompt = "You are a friendly assistant.", 
-        )
-    chat$chat(glue("Summarize this text in under 15 words: {text}"))
-}</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#functions to use in {ellmer} #2</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>generate_talk_title <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>(</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-4o"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="st">"You are a great public speaker"</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">chat</span>(<span class="fu">glue</span>(<span class="st">"Using less than 15 words, </span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">                 create a compelling headline </span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">                 from the abstract of this talk: {text}"</span>))</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>generate_talk_title</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>function (text) 
-{
-    chat &lt;- chat_openai(model = "gpt-4o", system_prompt = "You are a great public speaker", 
-        )
-    chat$chat(glue("Using less than 15 words, \n                 create a compelling headline \n                 from the abstract of this talk: {text}"))
-}</code></pre>
-</div>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#functions to use in {ellmer} #2</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>generate_talk_title <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-4o"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="st">"You are a great public speaker"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">chat</span>(<span class="fu">glue</span>(<span class="st">"Using less than 15 words, </span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="st">                 create a compelling headline </span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="st">                 from the abstract of this talk: {text}"</span>))</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_ai_summaries <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(human_talk_title) <span class="sc">|&gt;</span> </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary =</span> <span class="fu">basic_summary</span>(human_description)) <span class="sc">|&gt;</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary_word_count =</span> <span class="fu">count_words</span>(ai_summary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_ai_summaries <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(human_talk_title) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary =</span> <span class="fu">basic_summary</span>(human_description)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary_word_count =</span> <span class="fu">count_words</span>(ai_summary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Datapages improve FAIR data sharing by providing easy tools for interactive and
-accessible datasets.
-Richie Moluno introduces JSquarto for generating multilingual, flexible 
-JavaScript documentation integrated with GitHub.
-Disney automated and scaled ESPN's marketing measurement using R, Python, SQL, 
-Databricks, and Tableau.
-Find top 10 quick tips for effectively teaching R, including setup, 
-practicality, and learner understanding.
-COTA developed "rwnavigator" R package to help users analyze oncology data, 
-overcoming development challenges.
-Kyber automates data science setup tasks, enhancing teaching efficiency and 
-collaborative opportunities.
-Discusses improving package management with annotations and code comments for 
-clarity in projects.
-rainbowR connects and supports LGBTQ+ in the R community through data-driven 
-activism and involvement.</code></pre>
+<pre><code>Datapages enhance FAIR data by enabling interactive sharing and access with 
+minimal technical expertise.
+Richie Moluno introduces JSquarto for flexible, multilingual JavaScript 
+documentation with GitHub automation.
+Disney team automated and scaled ESPN's marketing analysis using R, Python, 
+SQL, Databricks, Tableau.
+Get teaching R quickly with our top 10 takeaways for effective preparation.
+COTA developed rwnavigator, an R package, to enhance data navigation for 
+analysis in oncology.
+Openscapes' Kyber R package automates setup for collaborative workshops using 
+Google tools and GitHub.
+Scripts and annotations organize package use for clarity in programming and 
+teaching workflows.
+rainbowR connects and supports LGBTQ+ in R, promoting awareness and engagement 
+for all.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_ai_summaries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_ai_summaries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 6
 # Groups:   human_talk_title [8]
@@ -263,28 +245,27 @@ activism and involvement.</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_ai_titles <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(human_talk_title) <span class="sc">|&gt;</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary =</span> <span class="fu">generate_talk_title</span>(human_description)) <span class="sc">|&gt;</span> </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary_word_count =</span> <span class="fu">count_words</span>(ai_summary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_ai_titles <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(human_talk_title) <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary =</span> <span class="fu">generate_talk_title</span>(human_description)) <span class="sc">|&gt;</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary_word_count =</span> <span class="fu">count_words</span>(ai_summary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>"Empower Research with Datapages: Simplify FAIR Data Sharing and Interactive 
-Visualization"
-"Revolutionize JavaScript Documentation: Meet JSquarto for Multilingual, 
-Flexible Design &amp; Automated Updates."
-"Scaling Disney's ESPN Marketing: Automation Insights with R, Python, SQL, and 
-More"
-"Master Teaching R: Top 10 Tips for Success and Engaged Learning"
-"Revolutionize Data Analysis: Introducing Rwnavigator for Life Sciences and 
-Oncology Experts"
-"Automate Open Data Science Setup: Kyber Streamlines Workshops, Boosting 
-Collaboration and Efficiency"
-"Streamline Code: Enhance Insights from Package Annotations and GitHub 
-Comments"
-"Empower LGBTQ+ Voices in R: Join the rainbowR Community and Drive Data-Driven 
-Change!"</code></pre>
+<pre><code>"Empower Open Science: Datapages Simplify FAIR Data Sharing with Interactive 
+Tools and Templates"
+"JSquarto: Revolutionizing Multilingual JavaScript Documentation with 
+Flexibility and Automation"
+"Disney's Tech Workflow: Automating and Scaling ESPN Marketing with R and 
+Python"
+"Master Teaching R Quickly: Top 10 Proven Tips From Award-Winning Educators"
+"COTA Unveils rwnavigator: Streamlining Real-World Data for Oncologists and 
+Data Scientists"
+"Automate Open Science: Kyber Streamlines Setup for Large-Scale Collaborative 
+Data Science Projects"
+"Streamline Programming: Enhance Packages with Annotations for Clarity and 
+Efficient Workflows"
+"Join rainbowR: Empowering LGBTQ+ in R Community Through Data and Activism"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_ai_titles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_ai_titles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 6
 # Groups:   human_talk_title [8]
@@ -303,8 +284,8 @@ Change!"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(df_ai_summaries, <span class="st">"00_Outputs/df_ai_summaries.xlsx"</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(df_ai_summaries, <span class="st">"00_Outputs/df_ai_titles.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(df_ai_summaries, <span class="st">"00_Outputs/df_ai_summaries.xlsx"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(df_ai_summaries, <span class="st">"00_Outputs/df_ai_titles.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </main>
