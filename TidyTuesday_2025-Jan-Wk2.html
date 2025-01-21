@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Arham Chouhury">
+<meta name="author" content="Arham Choudhury">
 
 <title>TidyTuesday-2025-Jan-wk2</title>
 <style>
@@ -90,7 +90,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Arham Chouhury </p>
+             <p>Arham Choudhury </p>
           </div>
   </div>
     
@@ -104,27 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytuesdayR)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2025-01-14'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2025-01-14'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>---- Compiling #TidyTuesday Information for 2025-01-14 ----
 --- There are 2 files available ---
@@ -135,157 +115,1674 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   1 of 2: "conf2023.csv"
   2 of 2: "conf2024.csv"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conf2023 <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>conf2023</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>conf2024 <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>conf2024</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> conf2024 <span class="sc">|&gt;</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(track <span class="sc">==</span> <span class="st">"Lightning Talks"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(description) <span class="sc">==</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(talk_title, description) <span class="sc">|&gt;</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">"human_"</span>, .))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 8 × 2
-  human_talk_title                                             human_description
-  &lt;chr&gt;                                                        &lt;chr&gt;            
-1 rainbowR - a community that supports, connects and promotes… "rainbowR's miss…
-2 JSquarto: Bridging JavaScript Documentation with Quarto's P… "In this talk, R…
-3 Ten Simple Rules for Teaching an Introduction to R           "Many of us feel…
-4 R Scripts to Databricks: Lessons in Production Workflow      "This talk is ab…
-5 Translating clinical guidance to actionable insights with R  "COTA’s team of …
-6 Why’d you load that package for?                             "Packages enhanc…
-7 DataPages for interactive data sharing using Quarto          "Findable, acces…
-8 Using the Kyber R package to connect Google Sheets, RMarkdo… "As we work in o…</code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>conf2023 <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>conf2023</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>conf2024 <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>conf2024</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to count the number of words in a string</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>count_words <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(text), <span class="dv">0</span>, <span class="fu">str_count</span>(text, <span class="st">"</span><span class="sc">\\</span><span class="st">S+"</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> conf2024 <span class="sc">|&gt;</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(track <span class="sc">==</span> <span class="st">"Lightning Talks"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(description) <span class="sc">==</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(talk_title, description) <span class="sc">|&gt;</span> </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">"human_"</span>, .)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">human_title_word_count =</span> <span class="fu">count_words</span>(human_talk_title)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">human_description_word_count =</span> <span class="fu">count_words</span>(human_description))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>df_to_view <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_width</span>(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    human_talk_title <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">200</span>) </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">12</span>),       </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_row.padding =</span> <span class="fu">px</span>(<span class="dv">4</span>)       </span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>df_to_view</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="gbumdcjqxn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gbumdcjqxn table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#gbumdcjqxn thead, #gbumdcjqxn tbody, #gbumdcjqxn tfoot, #gbumdcjqxn tr, #gbumdcjqxn td, #gbumdcjqxn th {
+  border-style: none;
+}
+
+#gbumdcjqxn p {
+  margin: 0;
+  padding: 0;
+}
+
+#gbumdcjqxn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#gbumdcjqxn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#gbumdcjqxn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#gbumdcjqxn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#gbumdcjqxn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#gbumdcjqxn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#gbumdcjqxn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#gbumdcjqxn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#gbumdcjqxn .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#gbumdcjqxn .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#gbumdcjqxn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#gbumdcjqxn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#gbumdcjqxn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#gbumdcjqxn .gt_row {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#gbumdcjqxn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gbumdcjqxn .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#gbumdcjqxn .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#gbumdcjqxn .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#gbumdcjqxn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gbumdcjqxn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#gbumdcjqxn .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gbumdcjqxn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#gbumdcjqxn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gbumdcjqxn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gbumdcjqxn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gbumdcjqxn .gt_left {
+  text-align: left;
+}
+
+#gbumdcjqxn .gt_center {
+  text-align: center;
+}
+
+#gbumdcjqxn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#gbumdcjqxn .gt_font_normal {
+  font-weight: normal;
+}
+
+#gbumdcjqxn .gt_font_bold {
+  font-weight: bold;
+}
+
+#gbumdcjqxn .gt_font_italic {
+  font-style: italic;
+}
+
+#gbumdcjqxn .gt_super {
+  font-size: 65%;
+}
+
+#gbumdcjqxn .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#gbumdcjqxn .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#gbumdcjqxn .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#gbumdcjqxn .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#gbumdcjqxn .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#gbumdcjqxn .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#gbumdcjqxn .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#gbumdcjqxn .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#gbumdcjqxn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="human_talk_title" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">human_talk_title</th>
+<th id="human_description" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">human_description</th>
+<th id="human_title_word_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">human_title_word_count</th>
+<th id="human_description_word_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">human_description_word_count</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">rainbowR - a community that supports, connects and promotes LGBTQ+ people who code in R</td>
+<td class="gt_row gt_left" headers="human_description">rainbowR's mission is to connect, support, and promote LGBTQ+ people in the R community and to spread awareness of LGBTQ+ issues through data-driven activism. In this lightning talk, you'll learn about the community, our activities, and how you can get involved, whether as a member of the LGBTQ+ community or an ally. For more, see &lt;https://rainbow.org&gt;.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">15</td>
+<td class="gt_row gt_right" headers="human_description_word_count">56</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">JSquarto: Bridging JavaScript Documentation with Quarto's Power</td>
+<td class="gt_row gt_left" headers="human_description">In this talk, Richie Moluno introduces a new tool called JSquarto, which solves common challenges developers face when documenting JavaScript projects, like the lack of support for multilingualism (especially for right-to-left languages and non-Latin scripts) and limited design flexibility. Inspired by quartodoc, Richie shows how Quarto can be used to solve these problems by generating flexible, multilingual JavaScript documentation. He also walks through how the whole process can be automated using GitHub, making it easier to keep docs up to date across different languages and formats &amp; how it can be integrated with Crowdin, a translation management system.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">7</td>
+<td class="gt_row gt_right" headers="human_description_word_count">98</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">Ten Simple Rules for Teaching an Introduction to R</td>
+<td class="gt_row gt_left" headers="human_description">Many of us feel unprepared to teach R, either because of a lack of guidance or time to prepare. We’ve distilled our award-winning teaching experience into our top 10 takeaways so you can get up and running teaching R quickly. This includes advice for setting yourself up for success, keeping it practical, and knowing your learners. To see our tips in more detail, check out our paper: https://doi.org/10.1371/journal.pcbi.1012018</td>
+<td class="gt_row gt_right" headers="human_title_word_count">9</td>
+<td class="gt_row gt_right" headers="human_description_word_count">68</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">R Scripts to Databricks: Lessons in Production Workflow</td>
+<td class="gt_row gt_left" headers="human_description">This talk is about how a team at The Walt Disney Company took the past year to take a local R workflow into production. This updated process uses a mix of R, Python, SQL, Databricks, and Tableau dashboard, all of which involves multiple teams and stakeholders. The project started as a manual monthly process to measure the effect of ESPN's live TV marketing to get consumers to convert to cross-channel platforms related to ESPN. But then we not only needed to automate this process, but also to scale it to measure the effect of marketing. The few lessons shared are: don't reinvent the wheel; use not only the best tool for the job, but the best available; take time to get used to new tools.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">8</td>
+<td class="gt_row gt_right" headers="human_description_word_count">125</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">Translating clinical guidance to actionable insights with R</td>
+<td class="gt_row gt_left" headers="human_description">COTA’s team of oncologists and data scientists curate real-world data used by life science companies and healthcare partners to inform drug development and patient care. Over time, we have received many of the same questions from our data users, which indicated a dire need for translating our internal clinical guidance and data model knowledge into a tool for successfully navigating our data. We developed rwnavigator, an R package that helps users easily prepare COTA data for analysis with time-to-event packages. As first-time package developers, we ran into many challenges as we created, tested, and deployed rwnavigator. We hope to share with the greater R community our motivations for developing this package and best practices we learned along the way.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">8</td>
+<td class="gt_row gt_right" headers="human_description_word_count">119</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">Why’d you load that package for?</td>
+<td class="gt_row gt_left" headers="human_description">Packages enhance programming languages, and working with code makes workflows repeatable. However, the number of existing packages can be overwhelming to the point of obscuring their roles within projects. This talk discusses the importance of scripts, and introduces ways to enhance package load calls. First, by building annotations with the annotater R package and also by learning from code comments across GitHub. The value of recording information such as package source, version, title, or even which functions or data are used in a script is discussed in both data science and teaching environments.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">6</td>
+<td class="gt_row gt_right" headers="human_description_word_count">93</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">DataPages for interactive data sharing using Quarto</td>
+<td class="gt_row gt_left" headers="human_description">Findable, accessible, interoperable, and reusable (FAIR) data sharing is a key component of open science but presents a challenge for researchers, especially those with limited technical expertise or resources. If datasets are shared, it's most often as static files, restricting the FAIRness of the data. We use Quarto and Observable JS to develop Datapages, tools and templates that bridge this gap. Datapages enables researchers and other data distributors to easily share versioned datasets along with interactive visualizations, rich documentation, and user-friendly access functionality.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">7</td>
+<td class="gt_row gt_right" headers="human_description_word_count">83</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">Using the Kyber R package to connect Google Sheets, RMarkdown, GitHub, and Agenda docs for open education</td>
+<td class="gt_row gt_left" headers="human_description">As we work in open data science spaces, we frequently peer-teach coding and collaboration skills. The setup work is often grossly underestimated and unseen. I’ll share how Openscapes automates setup with the Kyber R package that uses googlesheets4 and creates RMarkdown documents that become collaborative Google Doc agendas, and sets up repositories and organizes people on GitHub. Kyber replaces manual steps with R functions while maintaining the ability to edit outputs so we’re not constrained by the automation. It has enabled us to teach workshops repeatedly in less time – in 2022, we led four concurrent learning cohorts with 160 government scientists! Kyber is openly available to fork, reuse, and extend, and other groups are doing just that.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">17</td>
+<td class="gt_row gt_right" headers="human_description_word_count">118</td>
+</tr>
+</tbody>
+</table>
+
+</div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to count the number of words in a string</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>count_words <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(text), <span class="dv">0</span>, <span class="fu">str_count</span>(text, <span class="st">"</span><span class="sc">\\</span><span class="st">S+"</span>))</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">human_title_word_count =</span> <span class="fu">count_words</span>(human_talk_title)) <span class="sc">|&gt;</span> </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">human_description_word_count =</span> <span class="fu">count_words</span>(human_description))</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 8 × 4
-  human_talk_title                      human_description human_title_word_count
-  &lt;chr&gt;                                 &lt;chr&gt;                              &lt;int&gt;
-1 rainbowR - a community that supports… "rainbowR's miss…                     15
-2 JSquarto: Bridging JavaScript Docume… "In this talk, R…                      7
-3 Ten Simple Rules for Teaching an Int… "Many of us feel…                      9
-4 R Scripts to Databricks: Lessons in … "This talk is ab…                      8
-5 Translating clinical guidance to act… "COTA’s team of …                      8
-6 Why’d you load that package for?      "Packages enhanc…                      6
-7 DataPages for interactive data shari… "Findable, acces…                      7
-8 Using the Kyber R package to connect… "As we work in o…                     17
-# ℹ 1 more variable: human_description_word_count &lt;int&gt;</code></pre>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#functions to use in {ellmer} #1</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>basic_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-4o"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="st">"You are a friendly assistant."</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">chat</span>(<span class="fu">glue</span>(<span class="st">"Summarize this text in under 15 words: {text}"</span>))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#functions to use in {ellmer} #2</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>generate_talk_title <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-4o"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="st">"You are a great public speaker"</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">chat</span>(<span class="fu">glue</span>(<span class="st">"Using less than 15 words, </span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="st">                 create a compelling headline </span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="st">                 from the abstract of this talk: {text}"</span>))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_ai_summaries <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(human_talk_title) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary =</span> <span class="fu">basic_summary</span>(human_description)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary_word_count =</span> <span class="fu">count_words</span>(ai_summary)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(human_talk_title, ai_summary, human_description, <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_ai_summaries_to_view <span class="ot">&lt;-</span> df_ai_summaries <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_width</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    human_talk_title <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">100</span>), </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    ai_summary <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">100</span>),         </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    human_description <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">300</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">everything</span>() <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">150</span>)     </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>df_ai_summaries_to_view</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="qqywhrfpbw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qqywhrfpbw table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qqywhrfpbw thead, #qqywhrfpbw tbody, #qqywhrfpbw tfoot, #qqywhrfpbw tr, #qqywhrfpbw td, #qqywhrfpbw th {
+  border-style: none;
+}
+
+#qqywhrfpbw p {
+  margin: 0;
+  padding: 0;
+}
+
+#qqywhrfpbw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qqywhrfpbw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qqywhrfpbw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qqywhrfpbw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qqywhrfpbw .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qqywhrfpbw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qqywhrfpbw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qqywhrfpbw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qqywhrfpbw .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qqywhrfpbw .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qqywhrfpbw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qqywhrfpbw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qqywhrfpbw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qqywhrfpbw .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qqywhrfpbw .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qqywhrfpbw .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qqywhrfpbw .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qqywhrfpbw .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qqywhrfpbw .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qqywhrfpbw .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qqywhrfpbw .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qqywhrfpbw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#qqywhrfpbw .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qqywhrfpbw .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qqywhrfpbw .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qqywhrfpbw .gt_left {
+  text-align: left;
+}
+
+#qqywhrfpbw .gt_center {
+  text-align: center;
+}
+
+#qqywhrfpbw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qqywhrfpbw .gt_font_normal {
+  font-weight: normal;
+}
+
+#qqywhrfpbw .gt_font_bold {
+  font-weight: bold;
+}
+
+#qqywhrfpbw .gt_font_italic {
+  font-style: italic;
+}
+
+#qqywhrfpbw .gt_super {
+  font-size: 65%;
+}
+
+#qqywhrfpbw .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qqywhrfpbw .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qqywhrfpbw .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qqywhrfpbw .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qqywhrfpbw .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qqywhrfpbw .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qqywhrfpbw .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#qqywhrfpbw .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#qqywhrfpbw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="human_talk_title" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">human_talk_title</th>
+<th id="ai_summary" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">ai_summary</th>
+<th id="human_description" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">human_description</th>
+<th id="human_title_word_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">human_title_word_count</th>
+<th id="human_description_word_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">human_description_word_count</th>
+<th id="ai_summary_word_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">ai_summary_word_count</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">rainbowR - a community that supports, connects and promotes LGBTQ+ people who code in R</td>
+<td class="gt_row gt_left" headers="ai_summary">rainbowR connects and promotes LGBTQ+ individuals in R through activism; learn how to join.</td>
+<td class="gt_row gt_left" headers="human_description">rainbowR's mission is to connect, support, and promote LGBTQ+ people in the R community and to spread awareness of LGBTQ+ issues through data-driven activism. In this lightning talk, you'll learn about the community, our activities, and how you can get involved, whether as a member of the LGBTQ+ community or an ally. For more, see &lt;https://rainbow.org&gt;.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">15</td>
+<td class="gt_row gt_right" headers="human_description_word_count">56</td>
+<td class="gt_row gt_right" headers="ai_summary_word_count">14</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">JSquarto: Bridging JavaScript Documentation with Quarto's Power</td>
+<td class="gt_row gt_left" headers="ai_summary">Richie Moluno introduces JSquarto for flexible, multilingual JavaScript documentation using Quarto and GitHub automation.</td>
+<td class="gt_row gt_left" headers="human_description">In this talk, Richie Moluno introduces a new tool called JSquarto, which solves common challenges developers face when documenting JavaScript projects, like the lack of support for multilingualism (especially for right-to-left languages and non-Latin scripts) and limited design flexibility. Inspired by quartodoc, Richie shows how Quarto can be used to solve these problems by generating flexible, multilingual JavaScript documentation. He also walks through how the whole process can be automated using GitHub, making it easier to keep docs up to date across different languages and formats &amp; how it can be integrated with Crowdin, a translation management system.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">7</td>
+<td class="gt_row gt_right" headers="human_description_word_count">98</td>
+<td class="gt_row gt_right" headers="ai_summary_word_count">14</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">Ten Simple Rules for Teaching an Introduction to R</td>
+<td class="gt_row gt_left" headers="ai_summary">Top 10 tips for effectively teaching R, including setup, practicality, and understanding learners.</td>
+<td class="gt_row gt_left" headers="human_description">Many of us feel unprepared to teach R, either because of a lack of guidance or time to prepare. We’ve distilled our award-winning teaching experience into our top 10 takeaways so you can get up and running teaching R quickly. This includes advice for setting yourself up for success, keeping it practical, and knowing your learners. To see our tips in more detail, check out our paper: https://doi.org/10.1371/journal.pcbi.1012018</td>
+<td class="gt_row gt_right" headers="human_title_word_count">9</td>
+<td class="gt_row gt_right" headers="human_description_word_count">68</td>
+<td class="gt_row gt_right" headers="ai_summary_word_count">13</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">R Scripts to Databricks: Lessons in Production Workflow</td>
+<td class="gt_row gt_left" headers="ai_summary">A team automated an R workflow using various tools to measure ESPN's marketing impact.</td>
+<td class="gt_row gt_left" headers="human_description">This talk is about how a team at The Walt Disney Company took the past year to take a local R workflow into production. This updated process uses a mix of R, Python, SQL, Databricks, and Tableau dashboard, all of which involves multiple teams and stakeholders. The project started as a manual monthly process to measure the effect of ESPN's live TV marketing to get consumers to convert to cross-channel platforms related to ESPN. But then we not only needed to automate this process, but also to scale it to measure the effect of marketing. The few lessons shared are: don't reinvent the wheel; use not only the best tool for the job, but the best available; take time to get used to new tools.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">8</td>
+<td class="gt_row gt_right" headers="human_description_word_count">125</td>
+<td class="gt_row gt_right" headers="ai_summary_word_count">14</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">Translating clinical guidance to actionable insights with R</td>
+<td class="gt_row gt_left" headers="ai_summary">COTA developed the R package rwnavigator to aid data analysis, facing challenges as first-time developers.</td>
+<td class="gt_row gt_left" headers="human_description">COTA’s team of oncologists and data scientists curate real-world data used by life science companies and healthcare partners to inform drug development and patient care. Over time, we have received many of the same questions from our data users, which indicated a dire need for translating our internal clinical guidance and data model knowledge into a tool for successfully navigating our data. We developed rwnavigator, an R package that helps users easily prepare COTA data for analysis with time-to-event packages. As first-time package developers, we ran into many challenges as we created, tested, and deployed rwnavigator. We hope to share with the greater R community our motivations for developing this package and best practices we learned along the way.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">8</td>
+<td class="gt_row gt_right" headers="human_description_word_count">119</td>
+<td class="gt_row gt_right" headers="ai_summary_word_count">15</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">Why’d you load that package for?</td>
+<td class="gt_row gt_left" headers="ai_summary">The talk highlights managing package complexity and scripting for transparent, informative programming.</td>
+<td class="gt_row gt_left" headers="human_description">Packages enhance programming languages, and working with code makes workflows repeatable. However, the number of existing packages can be overwhelming to the point of obscuring their roles within projects. This talk discusses the importance of scripts, and introduces ways to enhance package load calls. First, by building annotations with the annotater R package and also by learning from code comments across GitHub. The value of recording information such as package source, version, title, or even which functions or data are used in a script is discussed in both data science and teaching environments.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">6</td>
+<td class="gt_row gt_right" headers="human_description_word_count">93</td>
+<td class="gt_row gt_right" headers="ai_summary_word_count">12</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">DataPages for interactive data sharing using Quarto</td>
+<td class="gt_row gt_left" headers="ai_summary">Datapages enhances FAIR data sharing with interactive, accessible tools for researchers with limited resources.</td>
+<td class="gt_row gt_left" headers="human_description">Findable, accessible, interoperable, and reusable (FAIR) data sharing is a key component of open science but presents a challenge for researchers, especially those with limited technical expertise or resources. If datasets are shared, it's most often as static files, restricting the FAIRness of the data. We use Quarto and Observable JS to develop Datapages, tools and templates that bridge this gap. Datapages enables researchers and other data distributors to easily share versioned datasets along with interactive visualizations, rich documentation, and user-friendly access functionality.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">7</td>
+<td class="gt_row gt_right" headers="human_description_word_count">83</td>
+<td class="gt_row gt_right" headers="ai_summary_word_count">14</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">Using the Kyber R package to connect Google Sheets, RMarkdown, GitHub, and Agenda docs for open education</td>
+<td class="gt_row gt_left" headers="ai_summary">Kyber automates setup tasks, enhancing open data science workshops, enabling efficient teaching and collaboration.</td>
+<td class="gt_row gt_left" headers="human_description">As we work in open data science spaces, we frequently peer-teach coding and collaboration skills. The setup work is often grossly underestimated and unseen. I’ll share how Openscapes automates setup with the Kyber R package that uses googlesheets4 and creates RMarkdown documents that become collaborative Google Doc agendas, and sets up repositories and organizes people on GitHub. Kyber replaces manual steps with R functions while maintaining the ability to edit outputs so we’re not constrained by the automation. It has enabled us to teach workshops repeatedly in less time – in 2022, we led four concurrent learning cohorts with 160 government scientists! Kyber is openly available to fork, reuse, and extend, and other groups are doing just that.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">17</td>
+<td class="gt_row gt_right" headers="human_description_word_count">118</td>
+<td class="gt_row gt_right" headers="ai_summary_word_count">14</td>
+</tr>
+</tbody>
+</table>
+
+</div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#functions to use in {ellmer} #1</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>basic_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>(</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-4o"</span>,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="st">"You are a friendly assistant."</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">chat</span>(<span class="fu">glue</span>(<span class="st">"Summarize this text in under 15 words: {text}"</span>))</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#functions to use in {ellmer} #2</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>generate_talk_title <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>(</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-4o"</span>,</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="st">"You are a great public speaker"</span>,</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">chat</span>(<span class="fu">glue</span>(<span class="st">"Using less than 15 words, </span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="st">                 create a compelling headline </span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="st">                 from the abstract of this talk: {text}"</span>))</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_ai_titles <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(human_talk_title) <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_title =</span> <span class="fu">generate_talk_title</span>(human_description)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_title_word_count =</span> <span class="fu">count_words</span>(ai_title)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(human_talk_title, ai_title, human_description, <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_ai_summaries <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(human_talk_title) <span class="sc">|&gt;</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary =</span> <span class="fu">basic_summary</span>(human_description)) <span class="sc">|&gt;</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary_word_count =</span> <span class="fu">count_words</span>(ai_summary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Datapages enhance FAIR data by enabling interactive sharing and access with 
-minimal technical expertise.
-Richie Moluno introduces JSquarto for flexible, multilingual JavaScript 
-documentation with GitHub automation.
-Disney team automated and scaled ESPN's marketing analysis using R, Python, 
-SQL, Databricks, Tableau.
-Get teaching R quickly with our top 10 takeaways for effective preparation.
-COTA developed rwnavigator, an R package, to enhance data navigation for 
-analysis in oncology.
-Openscapes' Kyber R package automates setup for collaborative workshops using 
-Google tools and GitHub.
-Scripts and annotations organize package use for clarity in programming and 
-teaching workflows.
-rainbowR connects and supports LGBTQ+ in R, promoting awareness and engagement 
-for all.</code></pre>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_ai_titles_to_view <span class="ot">&lt;-</span> df_ai_titles <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_width</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    human_talk_title <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">100</span>), </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    ai_title <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">100</span>),         </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    human_description <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">300</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">everything</span>() <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">150</span>)     </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>df_ai_titles_to_view</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="wckxpnkkjz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wckxpnkkjz table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#wckxpnkkjz thead, #wckxpnkkjz tbody, #wckxpnkkjz tfoot, #wckxpnkkjz tr, #wckxpnkkjz td, #wckxpnkkjz th {
+  border-style: none;
+}
+
+#wckxpnkkjz p {
+  margin: 0;
+  padding: 0;
+}
+
+#wckxpnkkjz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#wckxpnkkjz .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wckxpnkkjz .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wckxpnkkjz .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wckxpnkkjz .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wckxpnkkjz .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wckxpnkkjz .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wckxpnkkjz .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wckxpnkkjz .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#wckxpnkkjz .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#wckxpnkkjz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wckxpnkkjz .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wckxpnkkjz .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wckxpnkkjz .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wckxpnkkjz .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wckxpnkkjz .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#wckxpnkkjz .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#wckxpnkkjz .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#wckxpnkkjz .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wckxpnkkjz .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#wckxpnkkjz .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wckxpnkkjz .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wckxpnkkjz .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wckxpnkkjz .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wckxpnkkjz .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wckxpnkkjz .gt_left {
+  text-align: left;
+}
+
+#wckxpnkkjz .gt_center {
+  text-align: center;
+}
+
+#wckxpnkkjz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wckxpnkkjz .gt_font_normal {
+  font-weight: normal;
+}
+
+#wckxpnkkjz .gt_font_bold {
+  font-weight: bold;
+}
+
+#wckxpnkkjz .gt_font_italic {
+  font-style: italic;
+}
+
+#wckxpnkkjz .gt_super {
+  font-size: 65%;
+}
+
+#wckxpnkkjz .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#wckxpnkkjz .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#wckxpnkkjz .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#wckxpnkkjz .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#wckxpnkkjz .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#wckxpnkkjz .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#wckxpnkkjz .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#wckxpnkkjz .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#wckxpnkkjz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="human_talk_title" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">human_talk_title</th>
+<th id="ai_title" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">ai_title</th>
+<th id="human_description" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">human_description</th>
+<th id="human_title_word_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">human_title_word_count</th>
+<th id="human_description_word_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">human_description_word_count</th>
+<th id="ai_title_word_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">ai_title_word_count</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">rainbowR - a community that supports, connects and promotes LGBTQ+ people who code in R</td>
+<td class="gt_row gt_left" headers="ai_title">"Join rainbowR: Empower LGBTQ+ in Data Science, Connect and Advocate with Us Today!"</td>
+<td class="gt_row gt_left" headers="human_description">rainbowR's mission is to connect, support, and promote LGBTQ+ people in the R community and to spread awareness of LGBTQ+ issues through data-driven activism. In this lightning talk, you'll learn about the community, our activities, and how you can get involved, whether as a member of the LGBTQ+ community or an ally. For more, see &lt;https://rainbow.org&gt;.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">15</td>
+<td class="gt_row gt_right" headers="human_description_word_count">56</td>
+<td class="gt_row gt_right" headers="ai_title_word_count">13</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">JSquarto: Bridging JavaScript Documentation with Quarto's Power</td>
+<td class="gt_row gt_left" headers="ai_title">"JSquarto: Revolutionizing Multilingual, Flexible JavaScript Documentation with GitHub and Crowdin Automation"</td>
+<td class="gt_row gt_left" headers="human_description">In this talk, Richie Moluno introduces a new tool called JSquarto, which solves common challenges developers face when documenting JavaScript projects, like the lack of support for multilingualism (especially for right-to-left languages and non-Latin scripts) and limited design flexibility. Inspired by quartodoc, Richie shows how Quarto can be used to solve these problems by generating flexible, multilingual JavaScript documentation. He also walks through how the whole process can be automated using GitHub, making it easier to keep docs up to date across different languages and formats &amp; how it can be integrated with Crowdin, a translation management system.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">7</td>
+<td class="gt_row gt_right" headers="human_description_word_count">98</td>
+<td class="gt_row gt_right" headers="ai_title_word_count">11</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">Ten Simple Rules for Teaching an Introduction to R</td>
+<td class="gt_row gt_left" headers="ai_title">"Master Teaching R: Top 10 Tips for Success and Practical Guidance"</td>
+<td class="gt_row gt_left" headers="human_description">Many of us feel unprepared to teach R, either because of a lack of guidance or time to prepare. We’ve distilled our award-winning teaching experience into our top 10 takeaways so you can get up and running teaching R quickly. This includes advice for setting yourself up for success, keeping it practical, and knowing your learners. To see our tips in more detail, check out our paper: https://doi.org/10.1371/journal.pcbi.1012018</td>
+<td class="gt_row gt_right" headers="human_title_word_count">9</td>
+<td class="gt_row gt_right" headers="human_description_word_count">68</td>
+<td class="gt_row gt_right" headers="ai_title_word_count">11</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">R Scripts to Databricks: Lessons in Production Workflow</td>
+<td class="gt_row gt_left" headers="ai_title">Disney's Team Automates ESPN Marketing Analysis with R, Python, and Tableau Integration.</td>
+<td class="gt_row gt_left" headers="human_description">This talk is about how a team at The Walt Disney Company took the past year to take a local R workflow into production. This updated process uses a mix of R, Python, SQL, Databricks, and Tableau dashboard, all of which involves multiple teams and stakeholders. The project started as a manual monthly process to measure the effect of ESPN's live TV marketing to get consumers to convert to cross-channel platforms related to ESPN. But then we not only needed to automate this process, but also to scale it to measure the effect of marketing. The few lessons shared are: don't reinvent the wheel; use not only the best tool for the job, but the best available; take time to get used to new tools.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">8</td>
+<td class="gt_row gt_right" headers="human_description_word_count">125</td>
+<td class="gt_row gt_right" headers="ai_title_word_count">12</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">Translating clinical guidance to actionable insights with R</td>
+<td class="gt_row gt_left" headers="ai_title">"Rwnavigator: Streamlining Real-World Data Analysis for Oncologists and Data Scientists"</td>
+<td class="gt_row gt_left" headers="human_description">COTA’s team of oncologists and data scientists curate real-world data used by life science companies and healthcare partners to inform drug development and patient care. Over time, we have received many of the same questions from our data users, which indicated a dire need for translating our internal clinical guidance and data model knowledge into a tool for successfully navigating our data. We developed rwnavigator, an R package that helps users easily prepare COTA data for analysis with time-to-event packages. As first-time package developers, we ran into many challenges as we created, tested, and deployed rwnavigator. We hope to share with the greater R community our motivations for developing this package and best practices we learned along the way.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">8</td>
+<td class="gt_row gt_right" headers="human_description_word_count">119</td>
+<td class="gt_row gt_right" headers="ai_title_word_count">10</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">Why’d you load that package for?</td>
+<td class="gt_row gt_left" headers="ai_title">"Enhance Workflow Clarity: Organize and Annotate Packages for Efficient Programming"</td>
+<td class="gt_row gt_left" headers="human_description">Packages enhance programming languages, and working with code makes workflows repeatable. However, the number of existing packages can be overwhelming to the point of obscuring their roles within projects. This talk discusses the importance of scripts, and introduces ways to enhance package load calls. First, by building annotations with the annotater R package and also by learning from code comments across GitHub. The value of recording information such as package source, version, title, or even which functions or data are used in a script is discussed in both data science and teaching environments.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">6</td>
+<td class="gt_row gt_right" headers="human_description_word_count">93</td>
+<td class="gt_row gt_right" headers="ai_title_word_count">10</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="human_talk_title">DataPages for interactive data sharing using Quarto</td>
+<td class="gt_row gt_left" headers="ai_title">"Datapages: Simplifying FAIR Data Sharing with Interactive Tools for Researchers"</td>
+<td class="gt_row gt_left" headers="human_description">Findable, accessible, interoperable, and reusable (FAIR) data sharing is a key component of open science but presents a challenge for researchers, especially those with limited technical expertise or resources. If datasets are shared, it's most often as static files, restricting the FAIRness of the data. We use Quarto and Observable JS to develop Datapages, tools and templates that bridge this gap. Datapages enables researchers and other data distributors to easily share versioned datasets along with interactive visualizations, rich documentation, and user-friendly access functionality.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">7</td>
+<td class="gt_row gt_right" headers="human_description_word_count">83</td>
+<td class="gt_row gt_right" headers="ai_title_word_count">10</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="human_talk_title">Using the Kyber R package to connect Google Sheets, RMarkdown, GitHub, and Agenda docs for open education</td>
+<td class="gt_row gt_left" headers="ai_title">"Automate Open Data Science Workshops: Experience Seamless Setup with Kyber and Boost Collaboration!"</td>
+<td class="gt_row gt_left" headers="human_description">As we work in open data science spaces, we frequently peer-teach coding and collaboration skills. The setup work is often grossly underestimated and unseen. I’ll share how Openscapes automates setup with the Kyber R package that uses googlesheets4 and creates RMarkdown documents that become collaborative Google Doc agendas, and sets up repositories and organizes people on GitHub. Kyber replaces manual steps with R functions while maintaining the ability to edit outputs so we’re not constrained by the automation. It has enabled us to teach workshops repeatedly in less time – in 2022, we led four concurrent learning cohorts with 160 government scientists! Kyber is openly available to fork, reuse, and extend, and other groups are doing just that.</td>
+<td class="gt_row gt_right" headers="human_title_word_count">17</td>
+<td class="gt_row gt_right" headers="human_description_word_count">118</td>
+<td class="gt_row gt_right" headers="ai_title_word_count">13</td>
+</tr>
+</tbody>
+</table>
+
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_ai_summaries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 8 × 6
-# Groups:   human_talk_title [8]
-  human_talk_title                      human_description human_title_word_count
-  &lt;chr&gt;                                 &lt;chr&gt;                              &lt;int&gt;
-1 rainbowR - a community that supports… "rainbowR's miss…                     15
-2 JSquarto: Bridging JavaScript Docume… "In this talk, R…                      7
-3 Ten Simple Rules for Teaching an Int… "Many of us feel…                      9
-4 R Scripts to Databricks: Lessons in … "This talk is ab…                      8
-5 Translating clinical guidance to act… "COTA’s team of …                      8
-6 Why’d you load that package for?      "Packages enhanc…                      6
-7 DataPages for interactive data shari… "Findable, acces…                      7
-8 Using the Kyber R package to connect… "As we work in o…                     17
-# ℹ 3 more variables: human_description_word_count &lt;int&gt;, ai_summary &lt;chr&gt;,
-#   ai_summary_word_count &lt;int&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_ai_titles <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(human_talk_title) <span class="sc">|&gt;</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary =</span> <span class="fu">generate_talk_title</span>(human_description)) <span class="sc">|&gt;</span> </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ai_summary_word_count =</span> <span class="fu">count_words</span>(ai_summary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>"Empower Open Science: Datapages Simplify FAIR Data Sharing with Interactive 
-Tools and Templates"
-"JSquarto: Revolutionizing Multilingual JavaScript Documentation with 
-Flexibility and Automation"
-"Disney's Tech Workflow: Automating and Scaling ESPN Marketing with R and 
-Python"
-"Master Teaching R Quickly: Top 10 Proven Tips From Award-Winning Educators"
-"COTA Unveils rwnavigator: Streamlining Real-World Data for Oncologists and 
-Data Scientists"
-"Automate Open Science: Kyber Streamlines Setup for Large-Scale Collaborative 
-Data Science Projects"
-"Streamline Programming: Enhance Packages with Annotations for Clarity and 
-Efficient Workflows"
-"Join rainbowR: Empowering LGBTQ+ in R Community Through Data and Activism"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_ai_titles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 8 × 6
-# Groups:   human_talk_title [8]
-  human_talk_title                      human_description human_title_word_count
-  &lt;chr&gt;                                 &lt;chr&gt;                              &lt;int&gt;
-1 rainbowR - a community that supports… "rainbowR's miss…                     15
-2 JSquarto: Bridging JavaScript Docume… "In this talk, R…                      7
-3 Ten Simple Rules for Teaching an Int… "Many of us feel…                      9
-4 R Scripts to Databricks: Lessons in … "This talk is ab…                      8
-5 Translating clinical guidance to act… "COTA’s team of …                      8
-6 Why’d you load that package for?      "Packages enhanc…                      6
-7 DataPages for interactive data shari… "Findable, acces…                      7
-8 Using the Kyber R package to connect… "As we work in o…                     17
-# ℹ 3 more variables: human_description_word_count &lt;int&gt;, ai_summary &lt;chr&gt;,
-#   ai_summary_word_count &lt;int&gt;</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(df_ai_summaries, <span class="st">"00_Outputs/df_ai_summaries.xlsx"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(df_ai_summaries, <span class="st">"00_Outputs/df_ai_titles.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(df_ai_summaries, <span class="st">"00_Outputs/df_ai_summaries.xlsx"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(df_ai_titles,    <span class="st">"00_Outputs/df_ai_titles.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </main>

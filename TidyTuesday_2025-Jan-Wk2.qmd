@@ -1,12 +1,12 @@
 ---
 title: "TidyTuesday-2025-Jan-wk2"
-author: "Arham Chouhury"
+author: "Arham Choudhury"
 format: html
 ---
 
-```{r}
+```{r load_libraries}
 #| echo: false
-#| results: hide
+#| output: false
 library(tidyverse)
 library(tidytuesdayR)
 library(readxl)
@@ -16,37 +16,27 @@ library(glue)
 library(gt)
 ```
 
-```{r}
+```{r prep_data_small}
 tuesdata <- tidytuesdayR::tt_load('2025-01-14')
 
 conf2023 <- tuesdata$conf2023
 conf2024 <- tuesdata$conf2024
 
-df_0 <- conf2024 |> 
-  filter(track == "Lightning Talks") |> 
-  filter(is.na(description) == FALSE) |> 
-  select(talk_title, description) |> 
-  rename_with(~ paste0("human_", .)) |> 
-  gt() |>
-  cols_width(
-    human_talk_title ~ px(200) 
-  ) |>
-  tab_options(
-    table.font.size = px(12),       
-    data_row.padding = px(4)       
-  )
-df_0
-```
-
-```{r}
 # Function to count the number of words in a string
 count_words <- function(text) {
   ifelse(is.na(text), 0, str_count(text, "\\S+"))
 }
 
-df_1 <- df_0 |>
+
+df <- conf2024 |> 
+  filter(track == "Lightning Talks") |> 
+  filter(is.na(description) == FALSE) |> 
+  select(talk_title, description) |> 
+  rename_with(~ paste0("human_", .)) |> 
   mutate(human_title_word_count = count_words(human_talk_title)) |> 
-  mutate(human_description_word_count = count_words(human_description)) |> 
+  mutate(human_description_word_count = count_words(human_description))
+  
+df_to_view <- df |> 
   gt() |>
   cols_width(
     human_talk_title ~ px(200) 
@@ -55,10 +45,11 @@ df_1 <- df_0 |>
     table.font.size = px(12),       
     data_row.padding = px(4)       
   )
-df_1
+df_to_view
 ```
 
-```{r}
+
+```{r ellmer_functions}
 #functions to use in {ellmer} #1
 basic_summary <- function(text) {
   chat <- chat_openai(
@@ -80,41 +71,52 @@ generate_talk_title <- function(text) {
 }
 ```
 
-```{r}
-df_ai_summaries <- df_1 |> 
+```{r apply_ellmer_1}
+#| output: false
+df_ai_summaries <- df |> 
   group_by(human_talk_title) |> 
   mutate(ai_summary = basic_summary(human_description)) |> 
   mutate(ai_summary_word_count = count_words(ai_summary)) |> 
-  select(human_talk_title, ai_summary, human_description, everything()) |> 
-  gt() |>
-  cols_width(
-    c(human_talk_title, ai_summary) ~ px(200) 
-  ) |>
-  tab_options(
-    table.font.size = px(12),       
-    data_row.padding = px(4)       
-  )
-df_ai_summaries
+  select(human_talk_title, ai_summary, human_description, everything())
 ```
 
-```{r}
-df_ai_titles <- df_1 |> 
+```{r view_output_ellmer_1}
+  
+df_ai_summaries_to_view <- df_ai_summaries |>
+  ungroup() |> 
+  gt() |>
+  cols_width(
+    human_talk_title ~ px(100), 
+    ai_summary ~ px(100),         
+    human_description ~ px(300),
+    everything() ~ px(150)     
+  ) 
+df_ai_summaries_to_view
+```
+
+```{r apply_ellmer_2}
+#| output: false
+df_ai_titles <- df |> 
   group_by(human_talk_title) |> 
   mutate(ai_title = generate_talk_title(human_description)) |> 
   mutate(ai_title_word_count = count_words(ai_title)) |> 
-  select(human_talk_title, ai_title, human_description, everything()) |> 
-  gt() |>
-  cols_width(
-    c(human_talk_title, ai_title) ~ px(200) 
-  ) |>
-  tab_options(
-    table.font.size = px(12),       
-    data_row.padding = px(4)       
-  )
-df_ai_titles
+  select(human_talk_title, ai_title, human_description, everything())
 ```
 
-```{r}
+```{r view_ellmer_output_2}
+df_ai_titles_to_view <- df_ai_titles |> 
+  ungroup() |> 
+  gt() |>
+  cols_width(
+    human_talk_title ~ px(100), 
+    ai_title ~ px(100),         
+    human_description ~ px(300),
+    everything() ~ px(150)     
+  ) 
+df_ai_titles_to_view
+```
+
+```{r output_for_human_review}
 write_xlsx(df_ai_summaries, "00_Outputs/df_ai_summaries.xlsx")
-write_xlsx(df_ai_summaries, "00_Outputs/df_ai_titles.xlsx")
+write_xlsx(df_ai_titles,    "00_Outputs/df_ai_titles.xlsx")
 ```
